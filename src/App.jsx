@@ -1,13 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import HomePage from './pages/HomePage';
+import CupsPage from './pages/CupsPage';
+import CouponsPage from './pages/CouponsPage';
+import ProfilePage from './pages/ProfilePage';
+import './App.css';
 
 export default function App() {
   return (
-    <div className="bg-green-100 min-h-screen flex items-center justify-center">
-      <h1 className="text-4xl font-bold text-green-700">Tailwind работает! 🎉</h1>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="cups" element={<CupsPage />} />
+          <Route path="coupons" element={<CouponsPage />} />
+          <Route path="profile" element={<ProfilePage />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
-
