@@ -1,0 +1,46 @@
+.input-wrapper {
+  margin-bottom: 16px;
+}
+
+.input-label {
+  font-size: 14px;
+  margin-bottom: 4px;
+  margin-left: 15px;
+  font-weight: 600;
+  display: block;
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-field {
+  padding: 11px 70px 11px 25px; /* правый padding — под иконку */
+  width: 100%;
+  border: 1px solid rgba(236, 228, 222, 1);
+  border-radius: 50px;
+  font-size: 18px;
+  background-color: rgba(236, 228, 222, 1);
+  transition: border-color 0.3s ease;
+}
+
+.input-error {
+  border-color: red;
+}
+
+.input-error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #555;
+}
