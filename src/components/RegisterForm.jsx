@@ -5,6 +5,7 @@ import "./authForms.css";
 export default function RegisterForm({ onToggleMode }) {
   const [form, setForm] = useState({
     name: "",
+    surname: "",
     phone: "",
     email: "",
     password: "",
@@ -12,23 +13,60 @@ export default function RegisterForm({ onToggleMode }) {
   });
   const [errors, setErrors] = useState({
     confirmPassword: "",
+    phone: "",
   });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const newErrors = {};
+
     if (form.password !== form.confirmPassword) {
-      setErrors({ ...errors, confirmPassword: "Пароли не совпадают" });
+      newErrors.confirmPassword = "Пароли не совпадают";
+    }
+
+    if (!/^\d{8,15}$/.test(form.phone)) {
+      newErrors.phone = "Введите корректный номер (8–15 цифр)";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
 
-    setErrors({ confirmPassword: "" });
+    setErrors({ confirmPassword: "", phone: "" });
 
-    console.log("Регистрация", form);
+    const body = {
+      username: form.name,
+      userSurname: form.surname, // можно добавить отдельное поле, если нужно
+      mail: form.email,
+      phone: form.phone,
+      password: form.password,
+    };
+
+    try {
+      const res = await fetch("http://localhost:3000/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        console.log("Регистрация успешна", data);
+        // сохранить токен, перенаправить и т.п.
+      } else {
+        console.error("Ошибка регистрации", data.error);
+        // можно добавить отображение ошибки в интерфейсе
+      }
+    } catch (err) {
+      console.error("Сетевая ошибка", err);
+    }
   };
 
   return (
@@ -41,11 +79,21 @@ export default function RegisterForm({ onToggleMode }) {
           value={form.name}
         />
         <InputField
+          label="Ваше фамилия"
+          name="surname"
+          onChange={handleChange}
+          value={form.surname}
+        />
+        <InputField
           label="Телефон"
           name="phone"
+          type="tel"
+          inputMode="numeric"
           onChange={handleChange}
           value={form.phone}
+          error={errors.phone}
         />
+
         <InputField
           label="Email"
           name="email"

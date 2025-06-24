@@ -12,9 +12,33 @@ export default function LoginForm({ onToggleMode }) {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Вход", form);
+
+    const body = {
+      mail: form.email,
+      password: form.password,
+    };
+
+    try {
+      const res = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        console.log("Пользователь авторизирован успешно", data);
+        // сохранить токен, перенаправить и т.п.
+      } else {
+        console.error("Ошибка авторизации", data.error);
+        // можно добавить отображение ошибки в интерфейсе
+      }
+    } catch (err) {
+      console.error("Сетевая ошибка", err);
+    }
   };
 
   return (
@@ -42,12 +66,15 @@ export default function LoginForm({ onToggleMode }) {
         </button>
 
         <div className="auth-social">
-          <button
+          <a
             className="social-btn"
+            href="http://localhost:3000/auth/google"
             style={{
               padding: "1px 20px",
               display: "flex",
               alignItems: "center",
+              textDecoration: "none", // убираем подчёркивание
+              color: "inherit", // цвет текста по умолчанию
             }}
           >
             <span className="social-icon">
@@ -77,7 +104,7 @@ export default function LoginForm({ onToggleMode }) {
               </svg>
             </span>
             Google
-          </button>
+          </a>
 
           <button className="social-btn">
             <span className="social-icon">

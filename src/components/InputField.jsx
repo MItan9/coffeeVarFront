@@ -63,6 +63,7 @@ export default function InputField({
           onChange={onChange}
           required
         />
+
         {isPassword && (
           <span
             className="eye-icon"
