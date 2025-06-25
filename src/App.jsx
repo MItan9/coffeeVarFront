@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import CupsPage from "./pages/CupsPage";
 import CouponsPage from "./pages/CouponsPage";
 import ProfilePage from "./pages/ProfilePage";
+import ResetPassword from "./pages/ResetPassword";
 import { useAuth } from "./context/AuthContext";
 
 export default function App() {
@@ -14,6 +15,8 @@ export default function App() {
   return (
     <Routes>
       <Route path="/google-success" element={<GoogleSuccess />} />
+      <Route path="/reset-password/:token" element={<ResetPassword />} />
+
       <Route
         path="/"
         element={

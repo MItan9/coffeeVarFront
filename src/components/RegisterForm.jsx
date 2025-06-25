@@ -16,6 +16,8 @@ export default function RegisterForm({ onToggleMode }) {
   const [errors, setErrors] = useState({
     confirmPassword: "",
     phone: "",
+    email: "",
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -27,12 +29,21 @@ export default function RegisterForm({ onToggleMode }) {
 
     const newErrors = {};
 
+    if (!/^[A-Za-z\d]{8,}$/.test(form.password)) {
+      newErrors.password =
+        "Пароль должен содержать минимум 8 символов и только английские буквы";
+    }
+
     if (form.password !== form.confirmPassword) {
       newErrors.confirmPassword = "Пароли не совпадают";
     }
 
-    if (!/^\d{8,15}$/.test(form.phone)) {
-      newErrors.phone = "Введите корректный номер (8–15 цифр)";
+    if (!/^\+?\d{8,15}$/.test(form.phone)) {
+      newErrors.phone = "Введите номер с 8–15 цифрами, можно с '+' в начале";
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      newErrors.email = "Введите корректный email с символом @ и точкой";
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -102,6 +113,7 @@ export default function RegisterForm({ onToggleMode }) {
           type="email"
           onChange={handleChange}
           value={form.email}
+          error={errors.email}
         />
         <InputField
           label="Пароль"
@@ -109,6 +121,7 @@ export default function RegisterForm({ onToggleMode }) {
           type="password"
           onChange={handleChange}
           value={form.password}
+          error={errors.password}
         />
         <InputField
           label="Повторите пароль"
