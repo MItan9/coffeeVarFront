@@ -1,8 +1,10 @@
 import { useState } from "react";
 import InputField from "./InputField";
 import "./authForms.css";
+import { useAuth } from "../context/AuthContext";
 
 export default function LoginForm({ onToggleMode }) {
+  const { login } = useAuth();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -31,7 +33,9 @@ export default function LoginForm({ onToggleMode }) {
 
       if (res.ok) {
         console.log("Пользователь авторизирован успешно", data);
-        // сохранить токен, перенаправить и т.п.
+        const token = data.token;
+        login(token);
+        navigate("/home");
       } else {
         console.error("Ошибка авторизации", data.error);
         // можно добавить отображение ошибки в интерфейсе
@@ -66,17 +70,7 @@ export default function LoginForm({ onToggleMode }) {
         </button>
 
         <div className="auth-social">
-          <a
-            className="social-btn"
-            href="http://localhost:3000/auth/google"
-            style={{
-              padding: "1px 20px",
-              display: "flex",
-              alignItems: "center",
-              textDecoration: "none", // убираем подчёркивание
-              color: "inherit", // цвет текста по умолчанию
-            }}
-          >
+          <a className="social-btn" href="http://localhost:3000/auth/google">
             <span className="social-icon">
               {/* Google Icon */}
               <svg
@@ -105,28 +99,6 @@ export default function LoginForm({ onToggleMode }) {
             </span>
             Google
           </a>
-
-          <button className="social-btn">
-            <span className="social-icon">
-              {/* Facebook Icon */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 256 256"
-              >
-                <path
-                  fill="#1877f2"
-                  d="M256 128C256 57.308 198.692 0 128 0S0 57.308 0 128c0 63.888 46.808 116.843 108 126.445V165H75.5v-37H108V99.8c0-32.08 19.11-49.8 48.348-49.8C170.352 50 185 52.5 185 52.5V84h-16.14C152.959 84 148 93.867 148 103.99V128h35.5l-5.675 37H148v89.445c61.192-9.602 108-62.556 108-126.445"
-                />
-                <path
-                  fill="#fff"
-                  d="m177.825 165l5.675-37H148v-24.01C148 93.866 152.959 84 168.86 84H185V52.5S170.352 50 156.347 50C127.11 50 108 67.72 108 99.8V128H75.5v37H108v89.445A129 129 0 0 0 128 256a129 129 0 0 0 20-1.555V165z"
-                />
-              </svg>
-            </span>
-            Facebook
-          </button>
         </div>
       </form>
 

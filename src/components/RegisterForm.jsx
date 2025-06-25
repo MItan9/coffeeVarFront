@@ -1,8 +1,10 @@
 import { useState } from "react";
 import InputField from "./InputField";
 import "./authForms.css";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterForm({ onToggleMode }) {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
     surname: "",
@@ -42,7 +44,7 @@ export default function RegisterForm({ onToggleMode }) {
 
     const body = {
       username: form.name,
-      userSurname: form.surname, // можно добавить отдельное поле, если нужно
+      userSurname: form.surname,
       mail: form.email,
       phone: form.phone,
       password: form.password,
@@ -59,7 +61,7 @@ export default function RegisterForm({ onToggleMode }) {
 
       if (res.ok) {
         console.log("Регистрация успешна", data);
-        // сохранить токен, перенаправить и т.п.
+        onToggleMode();
       } else {
         console.error("Ошибка регистрации", data.error);
         // можно добавить отображение ошибки в интерфейсе
@@ -122,14 +124,7 @@ export default function RegisterForm({ onToggleMode }) {
         </button>
 
         <div className="auth-social">
-          <button
-            className="social-btn"
-            style={{
-              padding: "1px 20px",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
+          <button className="social-btn">
             <span className="social-icon">
               {/* Google SVG */}
               <svg
@@ -157,28 +152,6 @@ export default function RegisterForm({ onToggleMode }) {
               </svg>
             </span>
             Google
-          </button>
-
-          <button className="social-btn">
-            <span className="social-icon">
-              {/* Facebook SVG */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 256 256"
-              >
-                <path
-                  fill="#1877f2"
-                  d="M256 128C256 57.308 198.692 0 128 0S0 57.308 0 128c0 63.888 46.808 116.843 108 126.445V165H75.5v-37H108V99.8c0-32.08 19.11-49.8 48.348-49.8C170.352 50 185 52.5 185 52.5V84h-16.14C152.959 84 148 93.867 148 103.99V128h35.5l-5.675 37H148v89.445c61.192-9.602 108-62.556 108-126.445"
-                />
-                <path
-                  fill="#fff"
-                  d="m177.825 165l5.675-37H148v-24.01C148 93.866 152.959 84 168.86 84H185V52.5S170.352 50 156.347 50C127.11 50 108 67.72 108 99.8V128H75.5v37H108v89.445A129 129 0 0 0 128 256a129 129 0 0 0 20-1.555V165z"
-                />
-              </svg>
-            </span>
-            Facebook
           </button>
         </div>
       </form>
