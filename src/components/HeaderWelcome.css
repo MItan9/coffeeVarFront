@@ -1,0 +1,107 @@
+.header-welcome {
+  background-color: #6f4e37;
+  color: white;
+  padding: 0 16px;
+  height: 210px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: visible;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  height: 90px;
+  position: relative;
+}
+
+.header-logo {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 75px;
+  height: 75px;
+  object-fit: contain;
+}
+
+
+.greeting-box {
+  margin-left: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 75px;
+}
+
+.greeting-line {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.greeting-subline {
+  font-size: 16px;
+  margin: 4px 0 0;
+}
+
+/* Белая плашка с квадратом и текстом */
+.qr-wrapper {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  border-radius: 20px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  width: 90%;
+  max-width: 460px;
+}
+
+.qr-gradient-square {
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #846046, #412d20);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+}
+
+.qr-icon {
+  width: 55px;
+  height: 55px;
+  color: white;
+}
+
+.qr-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: #6f4e37;
+}
+
+/* Модальное окно */
+.qr-popup {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.qr-popup-content {
+  background: white;
+  color: #333;
+  padding: 24px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 350px;
+  text-align: center;
+}
