@@ -10,7 +10,10 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<AuthPage />} />
+        <Route path="/google-success" element={<GoogleSuccess />} />
+        
+        <Route path="/app" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="cups" element={<CupsPage />} />
           <Route path="coupons" element={<CouponsPage />} />
