@@ -7,7 +7,6 @@ export default function ResetPassword() {
   const navigate = useNavigate();
   const { token } = useParams();
   const [form, setForm] = useState({
-    email: "",
     password: "",
     confirmPassword: "",
   });
@@ -24,9 +23,9 @@ export default function ResetPassword() {
 
     const newErrors = {};
 
-    if (!/^[A-Za-z\d]{8,}$/.test(form.password)) {
+    if (!/^[A-Za-z\d]{6,}$/.test(form.password)) {
       newErrors.password =
-        "Пароль должен содержать минимум 8 символов и только английские буквы";
+        "Пароль должен содержать минимум 6 символов и только английские буквы";
     }
 
     if (form.password !== form.confirmPassword) {
@@ -38,11 +37,10 @@ export default function ResetPassword() {
       return;
     }
 
-    setErrors({ confirmPassword: "", phone: "" });
+    setErrors({ confirmPassword: "" });
 
     const body = {
       token: token,
-      mail: form.email,
       password: form.password,
     };
 
@@ -69,36 +67,38 @@ export default function ResetPassword() {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="auth-form">
-        <InputField
-          label="Email"
-          name="email"
-          type="email"
-          onChange={handleChange}
-          value={form.email}
-          error={errors.email}
-        />
-        <InputField
-          label="Пароль"
-          name="password"
-          type="password"
-          onChange={handleChange}
-          value={form.password}
-          error={errors.password}
-        />
-        <InputField
-          label="Повторите пароль"
-          name="confirmPassword"
-          type="password"
-          onChange={handleChange}
-          value={form.confirmPassword}
-          error={errors.confirmPassword}
-        />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "80vh",
+        }}
+      >
+        <form onSubmit={handleSubmit} className="auth-form">
+          <img src="/logo.png" className="auth-logo" alt="CoffeeVar logo" />
+          <InputField
+            label="Пароль"
+            name="password"
+            type="password"
+            onChange={handleChange}
+            value={form.password}
+            error={errors.password}
+          />
+          <InputField
+            label="Повторите пароль"
+            name="confirmPassword"
+            type="password"
+            onChange={handleChange}
+            value={form.confirmPassword}
+            error={errors.confirmPassword}
+          />
 
-        <button className="submit-btn" type="submit">
-          ИЗМЕНИТЬ ПАРОЛЬ
-        </button>
-      </form>
+          <button className="submit-btn" type="submit">
+            ИЗМЕНИТЬ ПАРОЛЬ
+          </button>
+        </form>
+      </div>
     </>
   );
 }

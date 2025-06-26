@@ -1,4 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import AuthPage from "./pages/AuthPage";
 import GoogleSuccess from "./components/GoogleSuccess";
 import Layout from "./components/Layout";
@@ -13,39 +15,56 @@ export default function App() {
   const { isAuthenticated } = useAuth();
 
   return (
-    <Routes>
-      <Route path="/google-success" element={<GoogleSuccess />} />
-      <Route path="/reset-password/:token" element={<ResetPassword />} />
+    <>
+      <Routes>
+        <Route path="/google-success" element={<GoogleSuccess />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
 
-      <Route
-        path="/"
-        element={
-          isAuthenticated ? <Navigate to="/home" replace /> : <AuthPage />
-        }
+        <Route
+          path="/"
+          element={
+            isAuthenticated ? <Navigate to="/home" replace /> : <AuthPage />
+          }
+        />
+        <Route path="/" element={<Layout />}>
+          <Route
+            path="home"
+            element={
+              isAuthenticated ? <HomePage /> : <Navigate to="/" replace />
+            }
+          />
+          <Route
+            path="cups"
+            element={
+              isAuthenticated ? <CupsPage /> : <Navigate to="/" replace />
+            }
+          />
+          <Route
+            path="coupons"
+            element={
+              isAuthenticated ? <CouponsPage /> : <Navigate to="/" replace />
+            }
+          />
+          <Route
+            path="profile"
+            element={
+              isAuthenticated ? <ProfilePage /> : <Navigate to="/" replace />
+            }
+          />
+        </Route>
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+      <ToastContainer
+        position="bottom-right" // 👈 Вот тут выбираешь позицию
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
       />
-      <Route path="/" element={<Layout />}>
-        <Route
-          path="home"
-          element={isAuthenticated ? <HomePage /> : <Navigate to="/" replace />}
-        />
-        <Route
-          path="cups"
-          element={isAuthenticated ? <CupsPage /> : <Navigate to="/" replace />}
-        />
-        <Route
-          path="coupons"
-          element={
-            isAuthenticated ? <CouponsPage /> : <Navigate to="/" replace />
-          }
-        />
-        <Route
-          path="profile"
-          element={
-            isAuthenticated ? <ProfilePage /> : <Navigate to="/" replace />
-          }
-        />
-      </Route>
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
+    </>
   );
 }

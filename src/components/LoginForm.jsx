@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import InputField from "./InputField";
 import "./authForms.css";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 export default function LoginForm({ onToggleMode }) {
   const navigate = useNavigate();
@@ -42,8 +43,11 @@ export default function LoginForm({ onToggleMode }) {
         const token = data.token;
         login(token);
         navigate("/home");
+
+        toast.success("Пользователь авторизирован успешно");
       } else {
         console.error("Ошибка авторизации", data.error);
+        toast.error("Ошибка авторизации. Проверьте email и пароль.");
         // можно добавить отображение ошибки в интерфейсе
       }
     } catch (err) {
@@ -63,18 +67,12 @@ export default function LoginForm({ onToggleMode }) {
       });
 
       if (res.ok) {
-        setMessage(
-          "Если такой email есть, мы отправили инструкцию для сброса."
-        );
+        toast.success("Инструкция для смены пароля отправлена на email");
       } else {
-        setMessage("Произошла ошибка. Попробуйте позже.");
+        toast.error("Пользователь не найден, перепроверьте введенную почту");
       }
     } catch (err) {
-      console.error(
-        "Ошибка при отправке запроса на восстановление пароля",
-        err
-      );
-      setMessage("Сетевая ошибка. Попробуйте позже.");
+      toast.error("Ошибка при отправке запроса на восстановление пароля");
     }
   };
 
