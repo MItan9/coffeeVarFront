@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./HeaderWelcome.css";
-import { authFetch } from "../context/authFetch"; // Предполагается, что authFetch настроен для авторизованных запросов
 
 export default function HeaderWelcome({ username = "Гость" }) {
   const [showPopup, setShowPopup] = useState(false);
@@ -8,18 +7,6 @@ export default function HeaderWelcome({ username = "Гость" }) {
   const [code, setCode] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [name, setName] = useState("");
-
-  const getUserName = async () => {
-    const accessToken = localStorage.getItem("accessToken");
-    const payload = JSON.parse(atob(accessToken?.split(".")[1]));
-    const userName = payload.username;
-    setName(userName);
-  };
-
-  useEffect(() => {
-    getUserName();
-  }, []);
 
   const fetchQRCode = async () => {
     try {
@@ -89,7 +76,7 @@ export default function HeaderWelcome({ username = "Гость" }) {
       <div className="header-top">
         <img src="/logo.png" alt="Логотип" className="header-logo" />
         <div className="greeting-box">
-          <p className="greeting-line">Привет, {name}!</p>
+          <p className="greeting-line">Привет, {username}!</p>
           <p className="greeting-subline">С возвращением</p>
         </div>
       </div>
