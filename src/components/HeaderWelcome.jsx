@@ -1,8 +1,75 @@
-import React, { useState } from 'react';
-import './HeaderWelcome.css';
+import React, { useState, useEffect } from "react";
+import "./HeaderWelcome.css";
 
-export default function HeaderWelcome({ username = 'Гость' }) {
+export default function HeaderWelcome({ username = "Гость" }) {
   const [showPopup, setShowPopup] = useState(false);
+  const [qrCode, setQrCode] = useState(null);
+  const [code, setCode] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const fetchQRCode = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const makeRequest = async () => {
+        const res = await fetch("http://localhost:3000/user/qrcode", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+          credentials: "include",
+        });
+
+        console.log("Response status:", res.status);
+        if (res.status === 403) {
+          // Попытка обновить access токен
+          const refreshRes = await fetch(
+            "http://localhost:3000/refresh-token",
+            {
+              method: "POST",
+              credentials: "include",
+            }
+          );
+
+          if (refreshRes.ok) {
+            const data = await refreshRes.json();
+            localStorage.setItem("accessToken", data.accessToken);
+            // Рекурсивно вызываем снова после обновления
+            return await makeRequest();
+          } else {
+            localStorage.removeItem("accessToken");
+            window.location.href = "/login";
+            return;
+          }
+        }
+
+        return res;
+      };
+
+      const res = await makeRequest();
+      const data = await res.json();
+
+      if (res.ok) {
+        setQrCode(data.qr);
+        setCode(data.code);
+        console.log("QR-код получен успешно", data);
+      } else {
+        setError(data.error || "Ошибка при получении QR-кода");
+      }
+    } catch (err) {
+      console.error("Ошибка сети:", err);
+      setError("Сетевая ошибка");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleOpenPopup = () => {
+    setShowPopup(true);
+    fetchQRCode();
+  };
 
   return (
     <div className="header-welcome">
@@ -14,7 +81,7 @@ export default function HeaderWelcome({ username = 'Гость' }) {
         </div>
       </div>
 
-      <div className="qr-wrapper" onClick={() => setShowPopup(true)}>
+      <div className="qr-wrapper" onClick={handleOpenPopup}>
         <div className="qr-gradient-square">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -30,8 +97,14 @@ export default function HeaderWelcome({ username = 'Гость' }) {
 
       {showPopup && (
         <div className="qr-popup" onClick={() => setShowPopup(false)}>
-          <div className="qr-popup-content" onClick={(e) => e.stopPropagation()}>
-            <p>Здесь появится всплывающее окно QR</p>
+          <div
+            className="qr-popup-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {loading && <p>Загрузка QR-кода...</p>}
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            {qrCode && <img src={qrCode} alt="QR-код" className="qr-image" />}
+            <p>{code}</p>
             <button onClick={() => setShowPopup(false)}>Закрыть</button>
           </div>
         </div>

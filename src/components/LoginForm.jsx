@@ -40,11 +40,11 @@ export default function LoginForm({ onToggleMode }) {
 
       if (res.ok) {
         console.log("Пользователь авторизирован успешно", data);
-        const token = data.token;
-        login(token);
+        const accessToken = data.accessToken;
+        login(accessToken);
         navigate("/home");
 
-        toast.success("Пользователь авторизирован успешно");
+        // toast.success("Пользователь авторизирован успешно");
       } else {
         console.error("Ошибка авторизации", data.error);
         toast.error("Ошибка авторизации. Проверьте email и пароль.");
