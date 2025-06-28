@@ -6,13 +6,13 @@ export default function GoogleSuccess() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const token = params.get("token");
+    const accessToken = params.get("accessToken");
 
-    if (token) {
-      localStorage.setItem("token", token);
-      navigate("/home");
+    if (accessToken) {
+      localStorage.setItem("accessToken", accessToken);
+      navigate("/home", { replace: true });
     } else {
-      navigate("/");
+      navigate("/", { replace: true });
     }
   }, []);
 

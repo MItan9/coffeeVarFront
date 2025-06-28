@@ -1,5 +1,7 @@
 /* Сброс отступов и глобальные параметры */
-html, body, #root {
+html,
+body,
+#root {
   margin: 0;
   padding: 0;
   width: 100%;

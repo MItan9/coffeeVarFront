@@ -1,8 +1,8 @@
 import React from "react";
 import "./ProfilePage.css";
+import Header from "../components/Header";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-
 
 export default function ProfilePage() {
   const { logout } = useAuth();
