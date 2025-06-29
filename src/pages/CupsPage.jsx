@@ -11,7 +11,7 @@ export default function CupsPage() {
   };
 
   const strokeLength = 2 * Math.PI * 120;
-  const offset = strokeLength - (filled / total) * strokeLength;
+  const offset = strokeLength * (1 - filled / total);
 
   return (
     <div className="page-container">
@@ -20,7 +20,11 @@ export default function CupsPage() {
         <p className="circle-text">Каждое 7-е кофе — бесплатно!</p>
 
         <div className="main-circle">
-          <svg className="progress-ring" viewBox="0 0 260 260">
+          <svg
+            className="progress-ring"
+            viewBox="0 0 260 260"
+            style={{ transform: 'scale(-1, 1)' }}
+          >
             <defs>
               <linearGradient id="gradient" x1="0" y1="0" x2="1" y2="0">
                 <stop offset="0%" stopColor="#846046" />
@@ -29,6 +33,7 @@ export default function CupsPage() {
             </defs>
             <circle cx="130" cy="130" r="120" fill="#D8CCC3" />
             <circle
+              key={filled}
               cx="130"
               cy="130"
               r="120"
@@ -38,7 +43,7 @@ export default function CupsPage() {
               strokeDasharray={strokeLength}
               strokeDashoffset={offset}
               strokeLinecap="round"
-              transform="scale(-1,1) rotate(90 0 260)"
+              transform="rotate(-90 130 130)"
             />
           </svg>
 
@@ -65,7 +70,6 @@ export default function CupsPage() {
         </div>
 
         <p className="gift-info">Осталось {total - filled} чашки — и кофе в подарок!</p>
-    
       </div>
     </div>
   );

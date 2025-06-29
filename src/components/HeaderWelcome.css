@@ -1,56 +1,52 @@
 .header-welcome {
   background-color: #6f4e37;
   color: white;
-  padding: 0 16px;
-  height: 210px;
+  padding-top: 8px;
+  padding-bottom: 32px; /* ← увеличиваем нижнюю часть */
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
   box-sizing: border-box;
-  position: relative;
-  overflow: visible;
 }
 
-.header-top {
+
+/* верхняя часть */
+.welcome-top {
   display: flex;
-  align-items: center;
-  height: 90px;
-  position: relative;
+  align-items: flex-start;
+  margin-top: 0;
+  padding: 0;
 }
 
-.header-logo {
-  position: absolute;
-  left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
+.welcome-logo {
   width: 75px;
   height: 75px;
   object-fit: contain;
+  margin: 0 0 0 16px; /* логотип в левом верхнем углу */
+  display: block;
 }
 
-
-.greeting-box {
-  margin-left: 100px;
+.welcome-greeting {
+  margin: 12px 0 0 16px; /* выравнивание по верхней линии логотипа */
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  height: 75px;
 }
 
-.greeting-line {
+.welcome-line {
   font-size: 22px;
   font-weight: bold;
   margin: 0;
 }
 
-.greeting-subline {
+.welcome-subline {
   font-size: 16px;
   margin: 4px 0 0;
 }
 
-/* Белая плашка с квадратом и текстом */
-.qr-wrapper {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+/* QR плашка */
+.welcome-qr {
+  margin-top: 12px;
+  margin-left: 16px;
+  margin-right: 16px;
   background-color: white;
   border-radius: 20px;
   padding: 12px 20px;
@@ -58,11 +54,10 @@
   align-items: center;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  width: 90%;
   max-width: 460px;
 }
 
-.qr-gradient-square {
+.qr-square {
   width: 60px;
   height: 60px;
   border-radius: 6px;
@@ -79,13 +74,13 @@
   color: white;
 }
 
-.qr-label {
+.qr-text {
   font-size: 18px;
   font-weight: 600;
   color: #6f4e37;
 }
 
-/* Модальное окно */
+/* Popup */
 .qr-popup {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
