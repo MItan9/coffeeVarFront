@@ -1,0 +1,74 @@
+.qr-popup {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.qr-popup-content {
+  background: white;
+  color: #333;
+  width: 320px;
+  height: 400px;
+  border-radius: 24px;
+  padding: 24px 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.qr-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #444;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.qr-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #6f4e37;
+}
+
+.qr-status {
+  margin: 12px 0;
+  font-size: 16px;
+  color: #6f4e37;
+}
+
+
+.qr-status.error {
+  color: red;
+}
+
+.qr-image {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
+.qr-code {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin: 8px 0 4px;
+  color: #6f4e37;
+}
+
+.qr-hint {
+  font-size: 14px;
+  color: #6f4e37;
+}
