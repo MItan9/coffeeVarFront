@@ -7,15 +7,50 @@ export default function HomePage() {
   const [activeTab, setActiveTab] = useState("home");
   const [name, setName] = useState("");
 
-  const getUserName = async () => {
-    const accessToken = localStorage.getItem("accessToken");
-    const payload = JSON.parse(atob(accessToken?.split(".")[1]));
-    const userName = payload.username;
-    setName(userName);
-  };
+  const fetchUserName = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/user/profile", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        credentials: "include",
+      });
 
+      console.log("Response status:", res.status);
+
+      // Если accessToken истёк
+      if (res.status === 403) {
+        const refreshRes = await fetch("http://localhost:3000/refresh-token", {
+          method: "POST",
+          credentials: "include",
+        });
+
+        if (refreshRes.ok) {
+          const data = await refreshRes.json();
+          localStorage.setItem("accessToken", data.accessToken);
+
+          // Повторный запрос с обновлённым токеном
+          return fetchUserName();
+        } else {
+          localStorage.removeItem("accessToken");
+          window.location.href = "/login";
+          return;
+        }
+      }
+
+      if (res.ok) {
+        const data = await res.json();
+        console.log("User data:", data);
+        setName(data.name || data.username || "Пользователь");
+      } else {
+        console.error("Ошибка при получении имени пользователя");
+      }
+    } catch (err) {
+      console.error("Сетевая ошибка", err);
+    }
+  };
   useEffect(() => {
-    getUserName();
+    fetchUserName();
   }, []);
 
   return (

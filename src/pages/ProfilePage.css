@@ -2,33 +2,75 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background: #f6f0ec;
+  height: 80vh;
 }
 
 .profile-card {
-  background: #efe7e2;
+  background: #ece4de;
   padding: 2rem;
-  border-radius: 2rem;
-  width: 320px;
+  border-radius: 50px;
+  width: 70%;
+  max-width: 320px;
+  min-width: 260px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  margin: 0 auto;
 }
 
 .profile-row {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 1rem 0;
-  font-size: 1rem;
-  font-family: sans-serif;
+  gap: 18px;
+  margin: 1.4rem 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.icon-wrapper {
+  font-size: 20px;
+}
+
+.profile-text {
+  flex-grow: 1;
+  font-size: 20px;
+}
+.ellipsis-text {
+  flex-shrink: 1; /* Разрешает уменьшение */
+  flex-grow: 0; /* Запрещает растягивание */
+  min-width: 0; /* Важно для обрезки внутри flex */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.edit-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  font-size: 1.2rem;
 }
 
 .profile-row input {
   flex: 1;
-  padding: 4px 8px;
-  font-size: 1rem;
+  /* padding: 4px 8px; */
+  font-size: 1.3rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0px;
+  outline: none;
+  background-color: transparent;
 }
 
 .logout {
   cursor: pointer;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  font-size: 1.2rem;
+  margin-left: 10px;
 }

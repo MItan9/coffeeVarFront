@@ -55,7 +55,7 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <ToastContainer
-        position="bottom-right" 
+        position="bottom-right"
         autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
