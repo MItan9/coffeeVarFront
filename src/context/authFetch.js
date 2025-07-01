@@ -1,39 +1,38 @@
-export const authFetch = async (url, options = {}) => {
-  let response = await fetch(url, {
+export async function authFetch(url, options = {}) {
+  const accessToken = localStorage.getItem("accessToken");
+
+  const config = {
     ...options,
     headers: {
-      ...options.headers,
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      ...(options.headers || {}),
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
     },
-    credentials: "include", // если refresh токен в cookie
-  });
+    credentials: "include", // важно для куки с refreshToken
+  };
 
-  if (response.status === 401) {
-    // попытка обновить access токен
+  let res = await fetch(url, config);
+
+  // Если access токен истёк, пробуем обновить
+  if (res.status === 403) {
     const refreshRes = await fetch("http://localhost:3000/refresh-token", {
       method: "POST",
-      credentials: "include", // важно: cookie с refresh токеном
+      credentials: "include",
     });
 
     if (refreshRes.ok) {
       const data = await refreshRes.json();
       localStorage.setItem("accessToken", data.accessToken);
 
-      // повтор оригинального запроса с новым access токеном
-      response = await fetch(url, {
-        ...options,
-        headers: {
-          ...options.headers,
-          Authorization: `Bearer ${data.accessToken}`,
-        },
-        credentials: "include",
-      });
+      // Повтор запроса с новым access токеном
+      config.headers.Authorization = `Bearer ${data.accessToken}`;
+      res = await fetch(url, config);
     } else {
       localStorage.removeItem("accessToken");
-      window.location.href = "/login"; // или navigate("/login")
+      window.location.href = "/login";
       return;
     }
   }
 
-  return response;
-};
+  return res;
+}
