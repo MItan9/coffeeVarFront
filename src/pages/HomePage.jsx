@@ -8,13 +8,13 @@ import "./HomePage.css";
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState("home");
   const [name, setName] = useState("");
-    const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const [qrCode, setQrCode] = useState(null);
   const [code, setCode] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-   const fetchUserName = async () => {
+  const fetchUserName = async () => {
     try {
       const res = await fetch("http://localhost:3000/user/profile", {
         headers: {
@@ -59,8 +59,6 @@ export default function HomePage() {
   useEffect(() => {
     fetchUserName();
   }, []);
-  
-
 
   const fetchQRCode = async () => {
     try {
@@ -78,7 +76,6 @@ export default function HomePage() {
         credentials: "include",
       });
 
-
       console.log("Response status:", res.status);
 
       // Если accessToken истёк
@@ -88,7 +85,6 @@ export default function HomePage() {
           method: "POST",
           credentials: "include",
         });
-
 
         if (refreshRes.ok) {
           const data = await refreshRes.json();
@@ -115,10 +111,6 @@ export default function HomePage() {
     }
   };
 
-
-   
-      }
-
   return (
     <div className="home-container">
       <HeaderWelcome
@@ -132,13 +124,23 @@ export default function HomePage() {
       <div className="home-content">
         <h2 className="about-title">О нас</h2>
         <p>
-          В самом сердце города, на улице Пушкина, 40А, прячется уютное место, где кофе — это не просто напиток, а ритуал. CoffeeVAR — это пространство, где каждый гость чувствует себя как дома: мягкий свет, аромат свежеобжаренных зёрен и доброжелательная атмосфера создают идеальные условия для утреннего старта или неспешного вечера.
+          В самом сердце города, на улице Пушкина, 40А, прячется уютное место,
+          где кофе — это не просто напиток, а ритуал. CoffeeVAR — это
+          пространство, где каждый гость чувствует себя как дома: мягкий свет,
+          аромат свежеобжаренных зёрен и доброжелательная атмосфера создают
+          идеальные условия для утреннего старта или неспешного вечера.
         </p>
         <p>
-          Мы варим самый вкусный кофе — и делаем это с душой. От классического эспрессо до авторских напитков — каждую чашку мы готовим с вниманием к деталям и заботой о вашем настроении. Здесь можно укрыться от суеты, поработать за ноутбуком или просто поболтать с бариста, который уже знает ваш любимый заказ.
+          Мы варим самый вкусный кофе — и делаем это с душой. От классического
+          эспрессо до авторских напитков — каждую чашку мы готовим с вниманием к
+          деталям и заботой о вашем настроении. Здесь можно укрыться от суеты,
+          поработать за ноутбуком или просто поболтать с бариста, который уже
+          знает ваш любимый заказ.
         </p>
         <p>
-          Загляните к нам с понедельника по пятницу с 08:00 до 21:00, а в выходные — с 09:00. CoffeeVAR — это не просто кофейня, это место, куда хочется возвращаться.
+          Загляните к нам с понедельника по пятницу с 08:00 до 21:00, а в
+          выходные — с 09:00. CoffeeVAR — это не просто кофейня, это место, куда
+          хочется возвращаться.
         </p>
         <img src="/coffee_img.png" alt="Coffee" className="about-image" />
       </div>
