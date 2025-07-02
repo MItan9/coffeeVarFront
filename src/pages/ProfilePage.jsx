@@ -170,15 +170,8 @@ export default function ProfilePage() {
   };
 
   const handleDeleteAccount = async () => {
-    if (
-      !window.confirm(
-        "Вы уверены, что хотите удалить аккаунт? Это действие необратимо."
-      )
-    )
-      return;
-
     try {
-      const res = await fetch("http://localhost:3000/user/delete", {
+      const res = await authFetch("http://localhost:3000/user/delete", {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -246,14 +239,27 @@ export default function ProfilePage() {
           <div className="profile-row">
             <span className="icon-wrapper">{IconUser}</span>
             {editingField === "surname" ? (
-              <input
-                className="input-field"
-                name="surname"
-                value={formData.surname}
-                onChange={handleChange}
-                onBlur={handleSave}
-                autoFocus
-              />
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "8px" }}
+              >
+                <input
+                  className="input-field"
+                  name="surname"
+                  value={formData.surname}
+                  onChange={handleChange}
+                  onBlur={handleSave}
+                  autoFocus
+                />
+                <button className="icon-button" onClick={handleSave}>
+                  ✔
+                </button>
+                <button
+                  className="icon-button"
+                  onClick={() => setEditingField(null)}
+                >
+                  ✖
+                </button>
+              </div>
             ) : (
               <>
                 <span className="profile-text">{user.surname}</span>
@@ -275,14 +281,25 @@ export default function ProfilePage() {
           <div className="profile-row">
             <span className="icon-wrapper">{IconPhone}</span>
             {editingField === "phone" ? (
-              <input
-                className="input-field"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                onBlur={handleSave}
-                autoFocus
-              />
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <input
+                  className="input-field"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  onBlur={handleSave}
+                  autoFocus
+                />
+                <button className="icon-button" onClick={handleSave}>
+                  ✔
+                </button>
+                <button
+                  className="icon-button"
+                  onClick={() => setEditingField(null)}
+                >
+                  ✖
+                </button>
+              </div>
             ) : (
               <>
                 <span className="profile-text">{user.phone}</span>
@@ -307,7 +324,7 @@ export default function ProfilePage() {
               Удалить аккаунт
             </span>
 
-            {/* {showConfirm && (
+            {showConfirm && (
               <div className="modal-backdrop">
                 <div className="modal">
                   <p>
@@ -322,7 +339,7 @@ export default function ProfilePage() {
                   </div>
                 </div>
               </div>
-            )} */}
+            )}
           </div>
 
           <div
