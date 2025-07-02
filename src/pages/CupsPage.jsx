@@ -1,17 +1,37 @@
-import React, { useState } from 'react';
-import Header from '../components/Header';
-import './CupsPage.css';
+import React, { useState, useEffect } from "react";
+import Header from "../components/Header";
+import "./CupsPage.css";
+import { authFetch } from "../context/authFetch";
 
 export default function CupsPage() {
   const total = 6;
-  const [filled, setFilled] = useState(0);
 
-  const handleClick = (i) => {
-    if (i >= filled) setFilled(i + 1);
+  const [cups, setCups] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  const fetchCups = async () => {
+    try {
+      const res = await authFetch("http://localhost:3000/user/cups");
+      if (res.ok) {
+        const data = await res.json();
+        setCups(data.cups.cups_number);
+        console.log("Количество чашек:", data.cups.cups_number);
+      } else {
+        console.error("Ошибка при получении количества чашек");
+      }
+    } catch (err) {
+      console.error("Ошибка сети при получении чашек", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
+  useEffect(() => {
+    fetchCups();
+  }, []);
+
   const strokeLength = 2 * Math.PI * 120;
-  const offset = strokeLength * (1 - filled / total);
+  const offset = strokeLength * (1 - cups / total);
 
   return (
     <div className="page-container">
@@ -23,7 +43,7 @@ export default function CupsPage() {
           <svg
             className="progress-ring"
             viewBox="0 0 260 260"
-            style={{ transform: 'scale(-1, 1)' }}
+            style={{ transform: "scale(-1, 1)" }}
           >
             <defs>
               <linearGradient id="gradient" x1="0" y1="0" x2="1" y2="0">
@@ -33,7 +53,7 @@ export default function CupsPage() {
             </defs>
             <circle cx="130" cy="130" r="120" fill="#D8CCC3" />
             <circle
-              key={filled}
+              key={cups}
               cx="130"
               cy="130"
               r="120"
@@ -51,8 +71,7 @@ export default function CupsPage() {
             {Array.from({ length: total }, (_, i) => (
               <svg
                 key={i}
-                className={`cup-icon ${i < filled ? 'filled' : ''}`}
-                onClick={() => handleClick(i)}
+                className={`cup-icon ${i < cups ? "filled" : ""}`}
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
               >
@@ -69,7 +88,9 @@ export default function CupsPage() {
           </div>
         </div>
 
-        <p className="gift-info">Осталось {total - filled} чашки — и кофе в подарок!</p>
+        <p className="gift-info">
+          Осталось {total - cups} чашки — и кофе в подарок!
+        </p>
       </div>
     </div>
   );
