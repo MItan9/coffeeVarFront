@@ -96,7 +96,8 @@ export default function HomePage() {
         <img src="/coffee_img.png" alt="Coffee" className="about-image" />
       </div>
 
-      <BottomNavBar activeTab={activeTab} onTabChange={setActiveTab} />
+      <BottomNavBar activeTab={activeTab} onTabChange={setActiveTab} couponCount={3} />
+
 
       <QrPopup
         show={showPopup}

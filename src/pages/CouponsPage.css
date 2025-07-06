@@ -1,0 +1,64 @@
+.coupon-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.coupon-card {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  background-color: #fff9f0;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  padding: 16px;
+}
+
+.coupon-image {
+  height: 140px;
+  background-image: url("/coupon.png");
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+}
+
+.coupon-info {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.coupon-title {
+  font-weight: 600;
+  font-size: 18px;
+  color: #453020;
+}
+
+.coupon-expire {
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+  color: #8b7b6c;
+}
+
+.coupon-button {
+  margin-top: 12px;
+  padding: 8px 16px;
+  font-size: 15px;
+  background-color: #e0a348;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+
+.coupon-note {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 14px;
+  color: #7b6c5e;
+  opacity: 0.85;
+}
