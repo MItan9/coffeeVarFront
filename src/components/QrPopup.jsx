@@ -17,7 +17,7 @@ export default function QrPopup({ show, qrCode, code, loading, error, onClose })
         {qrCode && <img src={qrCode} alt="QR-код" className="qr-image" />}
         {code && <p className="qr-code">{code}</p>}
 
-        <p className="qr-hint">Покажите QR на кассе после покупки кофе</p>
+        <p className="qr-hint">Покажите QR-код бариста после покупки кофе или при использовании купона</p>
       </div>
     </div>
   );
