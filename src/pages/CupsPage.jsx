@@ -30,11 +30,30 @@ export default function CupsPage() {
     fetchCups();
   }, []);
 
-  useEffect(() => {
-    if (cups === total) {
-      setShowCoupon(true);
+ useEffect(() => {
+  if (cups === total) {
+    setShowCoupon(true);
+    addCoupon();
+  }
+}, [cups]);
+
+const addCoupon = async () => {
+  try {
+    const res = await authFetch("http://localhost:3000/user/add-coupon", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      console.error("Ошибка при добавлении купона");
     }
-  }, [cups]);
+  } catch (err) {
+    console.error("Сетевая ошибка при добавлении купона", err);
+  }
+};
+
 
   const strokeLength = 2 * Math.PI * 120;
   const offset = strokeLength * (1 - cups / total);

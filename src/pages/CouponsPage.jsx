@@ -1,14 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import QrPopup from '../components/QrPopup';
 import './CouponsPage.css';
 import { authFetch } from '../context/authFetch';
-
-const coupons = [
-  { id: 1, name: 'Бесплатный кофе', expiresIn: '31 дней' },
-  { id: 2, name: 'Бесплатный кофе', expiresIn: '29 дней' },
-  { id: 3, name: 'Бесплатный кофе', expiresIn: '27 дней' },
-];
 
 export default function CouponsPage() {
   const [showPopup, setShowPopup] = useState(false);
@@ -16,6 +10,24 @@ export default function CouponsPage() {
   const [code, setCode] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [coupons, setCoupons] = useState([]);
+
+  const fetchCoupons = async () => {
+    try {
+      const res = await authFetch("http://localhost:3000/user/coupons");
+      if (res.ok) {
+        const data = await res.json();
+        setCoupons(data.coupons);
+        console.log("Купоны:", data.coupons);
+      }
+    } catch (err) {
+      console.error("Ошибка загрузки купонов", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCoupons();
+  }, []);
 
   const fetchQRCode = async () => {
     try {
@@ -44,6 +56,13 @@ export default function CouponsPage() {
     }
   };
 
+  const formatDaysLeft = (expiresAt) => {
+    const now = new Date();
+    const exp = new Date(expiresAt);
+    const diff = Math.ceil((exp - now) / (1000 * 60 * 60 * 24));
+    return `${diff} дней`;
+  };
+
   return (
     <div className="page-container">
       <Header title="Купоны" />
@@ -53,9 +72,9 @@ export default function CouponsPage() {
           <div key={coupon.id} className="coupon-card">
             <div className="coupon-image" />
             <div className="coupon-info">
-              <span className="coupon-title">{coupon.name}</span>
+              <span className="coupon-title">Бесплатный кофе</span>
               <span className="coupon-expire">
-                Срок действия: {coupon.expiresIn}
+                Срок действия: {formatDaysLeft(coupon.expires_at)}
               </span>
               <button className="coupon-button" onClick={fetchQRCode}>
                 ИСПОЛЬЗОВАТЬ
@@ -66,8 +85,8 @@ export default function CouponsPage() {
       </div>
 
       <p className="coupon-note">
-        Максимальное количество купонов: 3<br />
-        Срок действия каждого купона — 1 месяц
+        Максимум: 3 активных купона<br />
+        Срок действия — 1 месяц
       </p>
 
       <QrPopup
