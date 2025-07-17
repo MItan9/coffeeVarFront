@@ -9,6 +9,10 @@ export default function CupsPage() {
   const [cups, setCups] = useState(0);
   const [loading, setLoading] = useState(true);
   const [showCoupon, setShowCoupon] = useState(false);
+  const [previousCups, setPreviousCups] = useState(0);
+  const [queuedCoupons, setQueuedCoupons] = useState(0);
+
+
 
   const fetchCups = async () => {
     try {
@@ -16,6 +20,7 @@ export default function CupsPage() {
       if (res.ok) {
         const data = await res.json();
         setCups(data.cups.cups_number);
+       
       } else {
         console.error("Ошибка при получении количества чашек");
       }
@@ -30,33 +35,53 @@ export default function CupsPage() {
     fetchCups();
   }, []);
 
- useEffect(() => {
-  if (cups === total) {
+useEffect(() => {
+  const couponsAvailable = Math.floor(cups / total);
+  setQueuedCoupons(couponsAvailable);
+
+  if (couponsAvailable > 0 && previousCups < total) {
     setShowCoupon(true);
-    addCoupon();
+    addCouponDeleteCup();
   }
+
+  setPreviousCups(cups);
 }, [cups]);
 
-const addCoupon = async () => {
-  try {
-    const res = await authFetch("http://localhost:3000/user/add-coupon", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
 
-    if (!res.ok) {
-      console.error("Ошибка при добавлении купона");
+  const addCouponDeleteCup = async () => {
+    try {
+      const res = await authFetch("http://localhost:3000/user/add-coupon-delete-cups", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+       setCups(cups -6 );
+
+      if (!res.ok) {
+        console.error("Ошибка при добавлении купона");
+      }
+    } catch (err) {
+      console.error("Сетевая ошибка при добавлении купона", err);
     }
-  } catch (err) {
-    console.error("Сетевая ошибка при добавлении купона", err);
+  };
+
+  const handleCouponClose = async () => {
+  setShowCoupon(false);
+
+  if (queuedCoupons > 1) {
+    setQueuedCoupons(queuedCoupons - 1);
+    setShowCoupon(true);
+    addCouponDeleteCup();
   }
 };
 
 
   const strokeLength = 2 * Math.PI * 120;
-  const offset = strokeLength * (1 - cups / total);
+const safeCups = Math.min(cups, total);
+const offset = strokeLength * (1 - safeCups / total);
+
+
 
   const getCupPhrase = (count) => {
     if (count === 1) return "Осталась 1 чашка";
@@ -64,6 +89,7 @@ const addCoupon = async () => {
     return `Осталось ${count} чашек`;
   };
 
+ 
   return (
     <div className="page-container">
       <Header title="Чашки" />
@@ -112,7 +138,7 @@ const addCoupon = async () => {
         </div>
 
         <p className="gift-info">
-          {getCupPhrase(total - cups)} — и кофе в подарок!
+         {getCupPhrase(Math.max(total - cups, 0))} — и кофе в подарок!
         </p>
 
         <p className="coupon-terms">
@@ -123,7 +149,7 @@ const addCoupon = async () => {
         </p>
       </div>
 
-      {showCoupon && <CouponPopup onClose={() => setShowCoupon(false)} />}
+      {showCoupon && <CouponPopup onClose={handleCouponClose} />}
     </div>
   );
 }
