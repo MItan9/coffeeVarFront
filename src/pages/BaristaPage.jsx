@@ -135,7 +135,7 @@ export default function BaristaPage() {
 
   return (
     <div>
-      <Header title="CoffeeVar" />
+      <Header title="CoffeeVar" showLogout={true} />
       <div className="barista-container">
         {client ? (
           <div className="barista-layout">

@@ -4,6 +4,8 @@
   height: 100vh;
   background-color: #ffffff;
   font-family: sans-serif;
+  overflow-y: auto;
+  padding-bottom: 70px; /* space for BottomNavBar */
 }
 
 .home-content {
