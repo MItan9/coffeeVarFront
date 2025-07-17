@@ -3,6 +3,8 @@
   flex-direction: column;
   align-items: center;
   padding: 24px;
+  overflow-y: auto;
+  padding-bottom: 70px;
 }
 
 .main-circle {
@@ -45,7 +47,7 @@
 .cup-icon {
   width: 40px;
   height: 40px;
-  color: #AF9C8D;
+  color: #af9c8d;
   cursor: pointer;
   transition: color 0.3s ease;
 }
