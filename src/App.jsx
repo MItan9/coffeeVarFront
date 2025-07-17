@@ -9,10 +9,11 @@ import CupsPage from "./pages/CupsPage";
 import CouponsPage from "./pages/CouponsPage";
 import ProfilePage from "./pages/ProfilePage";
 import ResetPassword from "./pages/ResetPassword";
+import BaristaPage from "./pages/BaristaPage";
 import { useAuth } from "./context/AuthContext";
 
 export default function App() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, userRole } = useAuth();
 
   return (
     <>
@@ -23,7 +24,23 @@ export default function App() {
         <Route
           path="/"
           element={
-            isAuthenticated ? <Navigate to="/home" replace /> : <AuthPage />
+            (isAuthenticated && userRole === "user" ? (
+              <Navigate to="/home" replace />
+            ) : (
+              <AuthPage />
+            ),
+            isAuthenticated && userRole === "barista" ? (
+              <Navigate to="/barista" replace />
+            ) : (
+              <AuthPage />
+            ))
+          }
+        />
+
+        <Route
+          path="/barista"
+          element={
+            isAuthenticated ? <BaristaPage /> : <Navigate to="/" replace />
           }
         />
         <Route path="/" element={<Layout />}>

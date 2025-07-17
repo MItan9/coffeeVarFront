@@ -1,10 +1,20 @@
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 import LoginForm from "../components/LoginForm";
 import RegisterForm from "../components/RegisterForm";
+import { Navigate } from "react-router-dom";
 import "./AuthPage.css";
 
 export default function AuthPage() {
   const [mode, setMode] = useState(null); // null | "login" | "register"
+  const { isAuthenticated, userRole } = useAuth();
+
+  if (isAuthenticated) {
+    console.log("User role in AuthPage:", userRole);
+    return (
+      <Navigate to={userRole === "barista" ? "/barista" : "/home"} replace />
+    );
+  }
 
   return (
     <div className="auth-page">
