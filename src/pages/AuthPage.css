@@ -1,21 +1,21 @@
 .auth-page {
-  min-height: 100vh; /* Гарантирует высоту экрана */
-  min-width: 100vw; /* Гарантирует ширину экрана */
+  min-height: 100vh;
+  min-width: 100vw;
   background-color: #ffffff;
   background-size: cover;
   background-position: center;
-  background-attachment: fixed; /* Зафиксированный фон */
+  background-attachment: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: sans-serif;
-  overflow: hidden; /* Убирает скролл, если не нужен */
+  overflow-y: auto;
 }
 
 .auth-card {
   padding: 32px;
   border-radius: 24px;
-  max-width: 420px;
+  max-width: 700px;
 }
 
 .auth-logo {

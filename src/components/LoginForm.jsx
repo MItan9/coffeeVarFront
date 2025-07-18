@@ -2,7 +2,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import InputField from "./InputField";
-import "./authForms.css";
+import "./AuthForms.css";
 import { useAuth } from "../context/AuthContext";
 
 export default function LoginForm({ onToggleMode }) {
@@ -77,6 +77,10 @@ export default function LoginForm({ onToggleMode }) {
     }
   };
 
+  const backToLogin = () => {
+    setShowForgotForm(false);
+    setForgotEmail("");
+  };
   return (
     <>
       {showForgotForm ? (
@@ -92,9 +96,7 @@ export default function LoginForm({ onToggleMode }) {
             Отправить
           </button>
           <p className="toggle-mode">
-            <span onClick={() => setShowForgotForm(false)}>
-              Вернуться ко входу
-            </span>
+            <span onClick={backToLogin}>Вернуться ко входу</span>
           </p>
           {message && <p style={{ marginTop: "10px" }}>{message}</p>}
         </form>

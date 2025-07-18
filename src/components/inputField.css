@@ -24,6 +24,7 @@
   font-size: 18px;
   background-color: rgba(236, 228, 222, 1);
   transition: border-color 0.3s ease;
+  margin: 0px 5px;
 }
 
 .input-error {

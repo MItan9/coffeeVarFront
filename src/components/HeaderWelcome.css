@@ -8,7 +8,6 @@
   box-sizing: border-box;
 }
 
-
 /* верхняя часть */
 .welcome-top {
   display: flex;
@@ -83,8 +82,11 @@
 /* Popup */
 .qr-popup {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0,0,0,0.45);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.45);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -99,4 +101,22 @@
   width: 90%;
   max-width: 350px;
   text-align: center;
+}
+
+@media (min-width: 768px) {
+  .header-welcome {
+    display: flex;
+    flex-direction: row; /* в строку */
+    align-items: center;
+    justify-content: space-between; /* или center / flex-start */
+    gap: 24px; /* отступы между элементами */
+  }
+  .welcome-qr {
+    display: flex; /* в строку */
+    flex-direction: row; /* по умолчанию — под */
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 12px;
+  }
 }

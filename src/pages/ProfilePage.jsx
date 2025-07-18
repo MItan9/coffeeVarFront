@@ -12,6 +12,12 @@ export default function ProfilePage() {
   const [editingField, setEditingField] = useState(null);
   const [formData, setFormData] = useState({});
   const [showConfirm, setShowConfirm] = useState(false);
+  const [notificationsOn, setNotificationsOn] = useState(true);
+
+  const toggleNotifications = () => {
+    setNotificationsOn((prev) => !prev);
+    // Здесь можно добавить сохранение состояния (в localStorage или на сервере)
+  };
 
   const IconUser = (
     <svg
@@ -316,11 +322,22 @@ export default function ProfilePage() {
           <div className="profile-row">
             <span className="icon-wrapper">{IconBell}</span>
             <span className="profile-text">Уведомления</span>
+            <label className="switch">
+              <input
+                type="checkbox"
+                checked={notificationsOn}
+                onChange={toggleNotifications}
+              />
+              <span className="slider" />
+            </label>
           </div>
 
           <div className="profile-row">
             <span className="icon-wrapper">{IconTrash}</span>
-            <span className="profile-text" onClick={() => setShowConfirm(true)}>
+            <span
+              className="profile-text delete-account"
+              onClick={() => setShowConfirm(true)}
+            >
               Удалить аккаунт
             </span>
 
