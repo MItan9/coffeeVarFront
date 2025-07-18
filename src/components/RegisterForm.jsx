@@ -2,7 +2,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import InputField from "./InputField";
-import "./authForms.css";
+import "./AuthForms.css";
 
 export default function RegisterForm({ onToggleMode }) {
   const navigate = useNavigate();
@@ -88,53 +88,54 @@ export default function RegisterForm({ onToggleMode }) {
   return (
     <>
       <form onSubmit={handleSubmit} className="auth-form">
-        <InputField
-          label="Ваше имя"
-          name="name"
-          onChange={handleChange}
-          value={form.name}
-        />
-        <InputField
-          label="Ваше фамилия"
-          name="surname"
-          onChange={handleChange}
-          value={form.surname}
-        />
-        <InputField
-          label="Телефон"
-          name="phone"
-          type="tel"
-          inputMode="numeric"
-          onChange={handleChange}
-          value={form.phone}
-          error={errors.phone}
-        />
+        <div className="input-grid">
+          <InputField
+            label="Ваше имя"
+            name="name"
+            onChange={handleChange}
+            value={form.name}
+          />
+          <InputField
+            label="Ваше фамилия"
+            name="surname"
+            onChange={handleChange}
+            value={form.surname}
+          />
+          <InputField
+            label="Телефон"
+            name="phone"
+            type="tel"
+            inputMode="numeric"
+            onChange={handleChange}
+            value={form.phone}
+            error={errors.phone}
+          />
 
-        <InputField
-          label="Email"
-          name="email"
-          type="email"
-          onChange={handleChange}
-          value={form.email}
-          error={errors.email}
-        />
-        <InputField
-          label="Пароль"
-          name="password"
-          type="password"
-          onChange={handleChange}
-          value={form.password}
-          error={errors.password}
-        />
-        <InputField
-          label="Повторите пароль"
-          name="confirmPassword"
-          type="password"
-          onChange={handleChange}
-          value={form.confirmPassword}
-          error={errors.confirmPassword}
-        />
-
+          <InputField
+            label="Email"
+            name="email"
+            type="email"
+            onChange={handleChange}
+            value={form.email}
+            error={errors.email}
+          />
+          <InputField
+            label="Пароль"
+            name="password"
+            type="password"
+            onChange={handleChange}
+            value={form.password}
+            error={errors.password}
+          />
+          <InputField
+            label="Повторите пароль"
+            name="confirmPassword"
+            type="password"
+            onChange={handleChange}
+            value={form.confirmPassword}
+            error={errors.confirmPassword}
+          />
+        </div>
         <button className="submit-btn" type="submit">
           ЗАРЕГИСТРИРОВАТЬСЯ
         </button>

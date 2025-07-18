@@ -78,3 +78,14 @@
   font-weight: bold;
   cursor: pointer;
 }
+
+.input-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .input-grid {
+    grid-template-columns: 1fr 1fr; /* 2 колонки на десктопе */
+  }
+}
