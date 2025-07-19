@@ -10,9 +10,7 @@ export default function CupsPage() {
   const [loading, setLoading] = useState(true);
   const [showCoupon, setShowCoupon] = useState(false);
   const [previousCups, setPreviousCups] = useState(0);
-  const [queuedCoupons, setQueuedCoupons] = useState(0);
-
-
+  const [couponCount, setCouponCount] = useState(0);
 
   const fetchCups = async () => {
     try {
@@ -20,7 +18,6 @@ export default function CupsPage() {
       if (res.ok) {
         const data = await res.json();
         setCups(data.cups.cups_number);
-       
       } else {
         console.error("Ошибка при получении количества чашек");
       }
@@ -35,53 +32,47 @@ export default function CupsPage() {
     fetchCups();
   }, []);
 
-useEffect(() => {
-  const couponsAvailable = Math.floor(cups / total);
-  setQueuedCoupons(couponsAvailable);
+  useEffect(() => {
+    const available = Math.floor(cups / total);
 
-  if (couponsAvailable > 0 && previousCups < total) {
-    setShowCoupon(true);
-    addCouponDeleteCup();
-  }
+    // если получаем купоны при достижении total
+    if (available > 0 && previousCups < total) {
+      setCouponCount(available);
+      setShowCoupon(true);
+      addCouponDeleteCup(available);
+    }
 
-  setPreviousCups(cups);
-}, [cups]);
+    setPreviousCups(cups);
+  }, [cups]);
 
-
-  const addCouponDeleteCup = async () => {
+  const addCouponDeleteCup = async (count) => {
     try {
       const res = await authFetch("http://localhost:3000/user/add-coupon-delete-cups", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({ count }), // передаём количество купонов
       });
-       setCups(cups -6 );
 
-      if (!res.ok) {
-        console.error("Ошибка при добавлении купона");
+      if (res.ok) {
+        setCups(cups - count * total);
+      } else {
+        console.error("Ошибка при добавлении купонов");
       }
     } catch (err) {
-      console.error("Сетевая ошибка при добавлении купона", err);
+      console.error("Сетевая ошибка при добавлении купонов", err);
     }
   };
 
-  const handleCouponClose = async () => {
-  setShowCoupon(false);
-
-  if (queuedCoupons > 1) {
-    setQueuedCoupons(queuedCoupons - 1);
-    setShowCoupon(true);
-    addCouponDeleteCup();
-  }
-};
-
+  const handleCouponClose = () => {
+    setShowCoupon(false);
+    setCouponCount(0);
+  };
 
   const strokeLength = 2 * Math.PI * 120;
-const safeCups = Math.min(cups, total);
-const offset = strokeLength * (1 - safeCups / total);
-
-
+  const safeCups = Math.min(cups, total);
+  const offset = strokeLength * (1 - safeCups / total);
 
   const getCupPhrase = (count) => {
     if (count === 1) return "Осталась 1 чашка";
@@ -89,7 +80,6 @@ const offset = strokeLength * (1 - safeCups / total);
     return `Осталось ${count} чашек`;
   };
 
- 
   return (
     <div className="page-container">
       <Header title="Чашки" />
@@ -137,9 +127,7 @@ const offset = strokeLength * (1 - safeCups / total);
           </div>
         </div>
 
-        <p className="gift-info">
-         {getCupPhrase(Math.max(total - cups, 0))} — и кофе в подарок!
-        </p>
+        <p className="gift-info">{getCupPhrase(Math.max(total - cups, 0))} — и кофе в подарок!</p>
 
         <p className="coupon-terms">
           <span>
@@ -149,7 +137,12 @@ const offset = strokeLength * (1 - safeCups / total);
         </p>
       </div>
 
-      {showCoupon && <CouponPopup onClose={handleCouponClose} />}
+      {showCoupon && (
+        <CouponPopup
+          onClose={handleCouponClose}
+          couponCount={couponCount}
+        />
+      )}
     </div>
   );
 }
