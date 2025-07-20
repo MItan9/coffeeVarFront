@@ -8,6 +8,7 @@
   padding-bottom: 70px; /* space for BottomNavBar */
 }
 
+/* 📄 Контент про кофейню */
 .home-content {
   flex: 1;
   padding: 16px;
@@ -25,4 +26,120 @@
   object-fit: cover;
   border-radius: 6px;
   margin-top: 15px;
+}
+
+/* 📍 Секция “Где нас найти” */
+.location-section {
+  padding: 16px;
+}
+
+.location-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #000000;
+}
+
+.map-embed {
+  margin-top: 12px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.map-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0;
+  color: #000000;
+  text-align: left;
+}
+
+
+/* 💡 Рекомендации CoffeeVAR */
+.recommendations-section {
+  padding: 16px;
+}
+
+.recommend-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #000000;
+}
+
+.menu-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fdfdfd;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+  max-width: 100%;
+}
+
+.menu-img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.menu-name {
+  font-size: 17px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0;
+  color: #2d2d2d;
+}
+
+.menu-desc {
+  margin: 6px 0 0;
+  font-size: 14px;
+  text-align: center;
+  color: #666;
+  max-width: 90%;
+}
+
+/* 🔻 Футер */
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+}
+
+.footer-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+
+
+.footer-icon {
+  font-size: 20px;
+  color: #000000;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.instagram-rounded {
+  border-radius: 8px;
+  overflow: hidden;
 }
